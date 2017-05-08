@@ -81,7 +81,8 @@ namespace KeePass2PCL.Cryptography
 		public HashingStreamEx(Stream sBaseStream, bool bWriting, HashAlgorithm hashAlgorithm)
 #endif
 		{
-			if(sBaseStream == null) throw new ArgumentNullException("sBaseStream");
+			if(sBaseStream == null)
+                throw new ArgumentNullException("sBaseStream");
 
 			m_sBaseStream = sBaseStream;
 			m_bWriting = bWriting;

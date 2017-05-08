@@ -48,6 +48,47 @@ namespace KeePass2PCL.Test.UWP
         }
 
         [TestMethod]
+        public void Open_With_KeyFile_Test()
+        {
+            IFolder folder = SpecialFolder.Current.Local;
+            IFolder testData = folder.CreateFolderAsync("TestData",
+                CreationCollisionOption.OpenIfExists).Result;
+            IFile keyFile = testData.CreateFileAsync("1.key",
+                CreationCollisionOption.ReplaceExisting).Result;
+            var fileStream = keyFile.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).Result;
+            var assembly = typeof(PwDatabaseTests).GetTypeInfo().Assembly;
+            var stream = assembly.GetManifestResourceStream(
+                "KeePass2PCL.Test.UWP.TestData.1.key");
+            using (var reader = new BinaryReader(stream))
+            using (var fileWriter = new BinaryWriter(fileStream))
+            {
+                fileWriter.Write(reader.ReadBytes((int)stream.Length));
+            }
+
+            IFile file = testData.CreateFileAsync("1key.kdbx",
+                CreationCollisionOption.ReplaceExisting).Result;
+            fileStream = file.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).Result;
+            assembly = typeof(PwDatabaseTests).GetTypeInfo().Assembly;
+            stream = assembly.GetManifestResourceStream(
+                "KeePass2PCL.Test.UWP.TestData.1key.kdbx");
+            using (var reader = new BinaryReader(stream))
+            using (var fileWriter = new BinaryWriter(fileStream))
+            {
+                fileWriter.Write(reader.ReadBytes((int)stream.Length));
+            }
+
+            var ci = new IOConnectionInfo();
+            ci.Path = file.Path;
+            var key = new CompositeKey();
+            key.AddUserKey(new KcpKeyFile(keyFile.Path));
+            var db = new PwDatabase();
+            db.Open(ci, key, null);
+            keyFile.DeleteAsync().Wait();
+            file.DeleteAsync().Wait();
+            testData.DeleteAsync().Wait();
+        }
+
+        [TestMethod]
         public void New_Test()
         {
             IFolder folder = SpecialFolder.Current.Local;
@@ -69,7 +110,8 @@ namespace KeePass2PCL.Test.UWP
             Assert.IsNull(db.RootGroup);
             db = new PwDatabase();
             db.Open(ci, key, null);
-            Assert.AreEqual(initialEnitiesCount, db.RootGroup.GetEntriesCount(true));
+            Assert.AreEqual(initialEnitiesCount,
+                db.RootGroup.GetEntriesCount(true));
         }
     }
 }

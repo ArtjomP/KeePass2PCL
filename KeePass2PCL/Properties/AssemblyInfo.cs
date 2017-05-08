@@ -25,9 +25,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("KeePassLib")]
 [assembly: AssemblyDescription("KeePass Password Management Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Dominik Reichl")]
+[assembly: AssemblyCompany("Panteam")]
 [assembly: AssemblyProduct("KeePassLib")]
-[assembly: AssemblyCopyright("Copyright © 2003-2014 Dominik Reichl")]
+[assembly: AssemblyCopyright("Copyright © 2003-2017 Dominik Reichl")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -40,5 +40,5 @@ using System.Runtime.InteropServices;
 #endif
 
 // Assembly version information
-[assembly: AssemblyVersion("2.28.0.*")]
-[assembly: AssemblyFileVersion("2.28.0.0")]
+[assembly: AssemblyVersion("2.28.1.*")]
+[assembly: AssemblyFileVersion("2.28.1.0")]

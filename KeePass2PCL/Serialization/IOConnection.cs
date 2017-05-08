@@ -19,8 +19,11 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Diagnostics;
 
 #if (!KeePass2PCL && !KeePassLibSD && !KeePassRT)
@@ -36,6 +39,7 @@ using System.Security.Cryptography.X509Certificates;
 using PCLStorage;
 #endif
 
+using KeePass2PCL.Native;
 using KeePass2PCL.Utility;
 
 namespace KeePass2PCL.Serialization
@@ -223,7 +227,7 @@ namespace KeePass2PCL.Serialization
 	}
 #endif
 
-    public static class IOConnection
+	public static class IOConnection
 	{
 #if (!KeePass2PCL && !KeePassLibSD && !KeePassRT)
 		private static ProxyServerType m_pstProxyType = ProxyServerType.System;
@@ -433,7 +437,7 @@ namespace KeePass2PCL.Serialization
 		{
 #if KeePass2PCL
             var file = FileSystem.Current.GetFileFromPathAsync(ioc.Path).Result;
-			return file.OpenAsync(FileAccess.Read).Result;
+			return file.OpenAsync(PCLStorage.FileAccess.Read).Result;
 #else
 			return new FileStream(ioc.Path, FileMode.Open, FileAccess.Read,
 				FileShare.Read);

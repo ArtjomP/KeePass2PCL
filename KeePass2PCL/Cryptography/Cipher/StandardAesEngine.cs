@@ -124,13 +124,18 @@ namespace KeePass2PCL.Cryptography.Cipher
 			Array.Copy(pbKey, pbLocalKey, 32);
 
 #if KeePass2PCL
-			var provider = WinRTCrypto.SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
+			var provider = WinRTCrypto.SymmetricKeyAlgorithmProvider.
+                OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
 			var key = provider.CreateSymmetricKey(pbLocalKey);
-			if (bEncrypt) {
-				var encryptor = WinRTCrypto.CryptographicEngine.CreateEncryptor(key, pbLocalIV);
+			if (bEncrypt)
+            {
+				var encryptor = WinRTCrypto.CryptographicEngine.CreateEncryptor(
+                    key, pbLocalIV);
 				return new CryptoStream(s, encryptor, CryptoStreamMode.Write);
-			} else {
-				var decryptor = WinRTCrypto.CryptographicEngine.CreateDecryptor(key, pbLocalIV);
+			} else
+            {
+				var decryptor = WinRTCrypto.CryptographicEngine.CreateDecryptor(
+                    key, pbLocalIV);
 				return new CryptoStream(s, decryptor, CryptoStreamMode.Read);
 			}
 #else

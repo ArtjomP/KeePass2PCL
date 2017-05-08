@@ -53,7 +53,8 @@ namespace KeePass2PCL.Serialization
 		public BinaryReaderEx(Stream input, Encoding encoding,
 			string strReadExceptionText)
 		{
-			if(input == null) throw new ArgumentNullException("input");
+			if(input == null)
+                throw new ArgumentNullException("input");
 
 			m_s = input;
 			// m_enc = encoding; // Not used yet
@@ -67,16 +68,20 @@ namespace KeePass2PCL.Serialization
 				byte[] pb = MemUtil.Read(m_s, nCount);
 				if((pb == null) || (pb.Length != nCount))
 				{
-					if(m_strReadExcp != null) throw new IOException(m_strReadExcp);
-					else throw new EndOfStreamException();
+					if(m_strReadExcp != null)
+                        throw new IOException(m_strReadExcp);
+					else
+                        throw new EndOfStreamException();
 				}
 
-				if(m_sCopyTo != null) m_sCopyTo.Write(pb, 0, pb.Length);
+				if(m_sCopyTo != null)
+                    m_sCopyTo.Write(pb, 0, pb.Length);
 				return pb;
 			}
 			catch(Exception)
 			{
-				if(m_strReadExcp != null) throw new IOException(m_strReadExcp);
+				if(m_strReadExcp != null)
+                    throw new IOException(m_strReadExcp);
 				else throw;
 			}
 		}

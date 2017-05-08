@@ -251,7 +251,7 @@ namespace KeePass2PCL.Keys
 
 				var el = doc.Root;
 
-				if((el == null) || !el.Name.Equals(RootElementName))
+				if((el == null) || !el.Name.LocalName.Equals(RootElementName))
 					return null;
 				if(el.DescendantNodes().Count() < 2)
 					return null;
@@ -259,7 +259,7 @@ namespace KeePass2PCL.Keys
 				foreach(var xmlChild in el.Descendants())
 				{
 					if(xmlChild.Name == MetaElementName) { } // Ignore Meta
-					else if(xmlChild.BaseUri == KeyElementName)
+					else if(xmlChild.Name == KeyElementName)
 					{
 						foreach(var xmlKeyChild in xmlChild.Descendants())
 						{

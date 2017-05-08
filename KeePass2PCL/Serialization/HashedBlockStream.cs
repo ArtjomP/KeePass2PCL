@@ -99,12 +99,13 @@ namespace KeePass2PCL.Serialization
 		private void Initialize(Stream sBaseStream, bool bWriting, int nBufferSize,
 			bool bVerify)
 		{
-			if(sBaseStream == null) throw new ArgumentNullException("sBaseStream");
-			if(nBufferSize < 0) throw new ArgumentOutOfRangeException("nBufferSize");
+            m_sBaseStream = sBaseStream ??
+                throw new ArgumentNullException(nameof(sBaseStream));
+            if (nBufferSize < 0)
+                throw new ArgumentOutOfRangeException(nameof(nBufferSize));
 
-			if(nBufferSize == 0) nBufferSize = m_nDefaultBufferSize;
-
-			m_sBaseStream = sBaseStream;
+			if(nBufferSize == 0)
+                nBufferSize = m_nDefaultBufferSize;
 			m_bWriting = bWriting;
 			m_bVerify = bVerify;
 
@@ -146,7 +147,8 @@ namespace KeePass2PCL.Serialization
 			{
 				if(m_bWriting == false) // Reading mode
 				{
-					m_brInput.Dispose();
+                    try { m_brInput.Dispose(); } catch { }
+
 					m_brInput = null;
 				}
 				else // Writing mode
@@ -164,7 +166,7 @@ namespace KeePass2PCL.Serialization
 					m_bwOutput = null;
 				}
 
-				m_sBaseStream.Dispose();
+                try { m_sBaseStream.Dispose(); } catch { }
 				m_sBaseStream = null;
 			}
 		}
