@@ -60,6 +60,7 @@ namespace KeePass2PCL.Test.Shared.Keys
     public void TestCreate ()
     {
       var fullPath = Path.Combine(Path.GetTempPath(), testCreateFile);
+      File.Create(fullPath).Close();
       KcpKeyFile.Create (fullPath, null);
       try {
         var fileContents = File.ReadAllText (fullPath);
